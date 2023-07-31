@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class RoomPhysics : MonoBehaviour
 {
+    [HideInInspector] public bool IsRoomStatic = false;
+
     private DungeonGenData _data;
 
     [SerializeField] private Collider _moveCollider; // The collider containing the objects you want to move away from
     [SerializeField] private float _moveSpeed = 5f; // The speed at which objects move away
     [SerializeField] private Rigidbody _rb;
+    [SerializeField] private int _maxRangeOffset = 10;
+
     private Vector3 _previousPosition; // Stores the previous position of the object
     private float _stationaryThreshold = 0.001f;
 
     private bool isOnPosition = false;
     private Vector2 minRange, maxRange;
-
-    [HideInInspector] public bool IsRoomStatic = false;
-
-    [SerializeField] private int _maxRangeOffset = 10;
 
     private void Start()
     {
@@ -42,79 +42,13 @@ public class RoomPhysics : MonoBehaviour
         isOnPosition = false;
         _rb.constraints = RigidbodyConstraints.FreezePositionY;
         _moveCollider.isTrigger = true;
-        //if (!IsRoomStatic)
-        // StartCoroutine(MovePhysics());
     }
-
-    IEnumerator MovePhysics()
-    {
-        //Collider[] colliders;
-
-        // Get all the colliders within the specified moveCollider
-        while (Vector3.Distance(transform.position, _previousPosition) > _stationaryThreshold)
-        {
-            bool isWithinRange = CheckIfWithinRange(transform.position, -maxRange, maxRange);
-
-            if (!isWithinRange)
-            {
-                Debug.LogWarning("REMOVINGROOM!!!!");
-                isOnPosition = true;
-                _rb.constraints = RigidbodyConstraints.FreezeAll;
-                _data.OnRoomDone();
-                ObjectPoolManager.ReturnObjectToPool(gameObject);
-            }
-
-
-            Collider[] colliders = Physics.OverlapBox(_moveCollider.bounds.center, _moveCollider.bounds.extents, Quaternion.identity);
-
-                foreach (Collider collider in colliders)
-                {
-                    // Check if the collider belongs to a valid game object
-                    GameObject obj = collider.gameObject;
-
-
-
-                    if (obj != gameObject) // Exclude self from moving away
-                    {
-                        // Calculate the direction from the object to this game object
-                        Vector3 direction = obj.transform.position - transform.position;
-
-                        // Normalize the direction vector to get a consistent speed
-                        direction.Normalize();
-
-                        // Apply translate in the opposite direction to move away from the room
-                        obj.transform.Translate(direction * _moveSpeed * Time.deltaTime);
-                    }
-                }
-            _previousPosition = transform.position;
-
-            yield return null;
-        }
-
-            isOnPosition = true;
-            _rb.constraints = RigidbodyConstraints.FreezeAll;
-            int x = Mathf.RoundToInt(transform.position.x);
-            int z = Mathf.RoundToInt(transform.position.z);
-            while (transform.position.x != x && transform.position.z != z)
-            {
-                transform.position = new Vector3(x, 0, z);
-            }
-            _data.OnRoomDone();
-            //Debug.Log("x =" + x + " z = " + z);
-            _moveCollider.isTrigger = false;
-            this.enabled = !this.enabled;
-
-        //yield return null;
-    } 
-
-
     
-    private void Update()
+    private void Update()//To do: remove from update and put it in an ienumerator to make the code simpler and more performant
     {
         if (!IsRoomStatic)
         {
             // Get all the colliders within the specified moveCollider
-
             bool isWithinRange = CheckIfWithinRange(transform.position, -maxRange, maxRange);
 
             if (!isWithinRange)
@@ -166,6 +100,7 @@ public class RoomPhysics : MonoBehaviour
                 _moveCollider.isTrigger = false;
                 this.enabled = !this.enabled;
             }
+
             _previousPosition = transform.position;
         }
         else

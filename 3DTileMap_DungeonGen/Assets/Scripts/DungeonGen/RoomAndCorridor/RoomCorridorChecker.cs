@@ -7,8 +7,6 @@ public class RoomCorridorChecker : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Room"))
-        {
             collision.gameObject.GetComponent<RemoveRoom>().IsRemovable = false;
-        }
     }
 }

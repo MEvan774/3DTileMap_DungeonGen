@@ -7,7 +7,6 @@ public class GenerateRooms : MonoBehaviour
 {
     [SerializeField] private DungeonGenData _data;
 
-    [SerializeField] float radius;
     [SerializeField] private GameObject _roomPrefab;
     [SerializeField] private Vector2 _MinMaxSize;
 
@@ -31,7 +30,7 @@ public class GenerateRooms : MonoBehaviour
         }
     }
 
-    public void OnGenerationDone()
+    public void OnGenerationDone()//resets values for next generation
     {
         _isGenerating = false;
         _data._roomDone = 0;
@@ -40,7 +39,7 @@ public class GenerateRooms : MonoBehaviour
         _data.isDone = false;
     }
 
-    Vector3 GetRandomPointInCircle()
+    private Vector3 GetRandomPointInCircle()
     {
         Vector3 spawnPoint = Random.insideUnitCircle * _data.SpawnCircleRadius;
         return new Vector3(Mathf.Round(spawnPoint.x * _data.CircleInset.x), 0, 

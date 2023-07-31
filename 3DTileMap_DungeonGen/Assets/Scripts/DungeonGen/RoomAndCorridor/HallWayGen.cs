@@ -5,13 +5,13 @@ using UnityEngine.Tilemaps;
 
 public class HallWayGen : MonoBehaviour
 {
+    [SerializeField] PlaceTiles tilePlacer;
+    [SerializeField] DungeonGenData _data;
+
     [SerializeField] Tilemap map;
     [SerializeField] LayerMask ignoreLayer;
 
     [SerializeField] GameObject _corridor;
-
-    [SerializeField] PlaceTiles tilePlacer;
-    [SerializeField] DungeonGenData _data;
 
     public void GenHallways(Transform[] nodeOne, Transform[] nodeTwo)
     {
@@ -21,30 +21,19 @@ public class HallWayGen : MonoBehaviour
         for (int i = 0; i < nodeOne.Length; i++)
         {
             if(nodeOne[i].position.z < nodeTwo[i].position.z)
-            {
                 zDir = Vector3.forward;
-            }
             else
-            {
                 zDir = Vector3.back;
-            }
 
             if (nodeOne[i].position.x < nodeTwo[i].position.x)
-            {
                 xDir = Vector3.left;
-            }
             else
-            {
                 xDir = Vector3.right;
-            }
 
             CheckHallway(nodeOne[i].position, nodeOne[i].position + (xDir * 1000), nodeTwo[i].position, nodeTwo[i].position + (zDir * 1000));
         }
 
-
-
         Invoke("PlaceTiles", 0.5f);
-        //tilePlacer.StartGen();
     }
 
     void PlaceTiles()
@@ -60,12 +49,15 @@ public class HallWayGen : MonoBehaviour
         if (LineLineIntersection(out intersection, a1, aDiff, b1, bDiff))
         {
             //Debug.Log("Intersecting at: " + intersection);
+
+            /*--Shows hallway intersection to make corridors--
             Debug.DrawLine(intersection, intersection + (Vector3.up * 20), Color.yellow, Mathf.Infinity);
 
             Debug.DrawLine(a1, intersection, Color.red, Mathf.Infinity);
             Debug.DrawLine(b1, intersection, Color.blue, Mathf.Infinity);
+            */
 
-            //bool m_HitDetect = Physics.BoxCast(m_Collider.bounds.center, transform.localScale, transform.forward, out m_Hit, transform.rotation, m_MaxDistance);
+            //spawns two colliders to create a hallway connecting 2 rooms
             StartCoroutine(OnCreateCorridor(a1, a2, b1, b2, intersection));
 
             float aSqrMagnitude = aDiff.sqrMagnitude;
@@ -76,8 +68,6 @@ public class HallWayGen : MonoBehaviour
                  && (intersection - b1).sqrMagnitude <= bSqrMagnitude
                  && (intersection - b2).sqrMagnitude <= bSqrMagnitude)
             {
-                Debug.Log("JIIHJBGUIGUIBIKUBIUBIJKU");
-
                 // there is an intersection between the two segments and 
                 //   it is at intersection
             }

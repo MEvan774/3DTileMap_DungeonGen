@@ -6,14 +6,17 @@ using UnityEngine.Tilemaps;
 
 public class PlaceTiles : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _onRemoveRooms;
+    [SerializeField] private DungeonGenData _data;
 
     [SerializeField] private Tilemap _mapWall;
     [SerializeField] private Tilemap _mapFloor;
     [SerializeField] private TileBase _tileWall;
     [SerializeField] private TileBase _tileFloor;
-    [SerializeField] private DungeonGenData _data;
+
     private GameObject _colliderParent;
+
+    [SerializeField] private UnityEvent _onRemoveRooms;
+    [SerializeField] private UnityEvent _onGenerationDone;
 
     private void Start()
     {
@@ -31,6 +34,7 @@ public class PlaceTiles : MonoBehaviour
         int _gridRangeX = Mathf.RoundToInt(_data.DungeonSize.x);
         int _gridRangeY = Mathf.RoundToInt(_data.DungeonSize.y);
 
+        //loops trough grid to place/replace floors and walls
         for (int x = -_gridRangeX; x < _gridRangeX; x++)
         {
             for (int y = -_gridRangeY; y < _gridRangeY; y++)
@@ -50,5 +54,8 @@ public class PlaceTiles : MonoBehaviour
             if (!child.CompareTag("DungeonGenHandler"))
                 ObjectPoolManager.ReturnObjectToPool(child.gameObject);
         }
+
+        //Tells 'GenerateRooms' that dungeon generation has finished and makes it ready for reactivation
+        _onGenerationDone.Invoke();
     }
 }

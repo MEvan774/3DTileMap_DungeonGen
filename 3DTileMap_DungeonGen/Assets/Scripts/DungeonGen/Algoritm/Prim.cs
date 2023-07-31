@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class Prim : MonoBehaviour
 {
-    private List<Transform> points = new List<Transform>();
-    private List<Transform> pointsVisited = new List<Transform>();
-
-
-    public List<Transform> nodes; // List of node transforms in the graph
+    [HideInInspector] public List<Transform> nodes; // List of node transforms in the graph
 
     private List<Transform> mstNodes = new List<Transform>(); // Minimum spanning tree points
     private List<Transform> remainingNodes; // Nodes not yet added to the MST
 
-    [SerializeField] private List<Transform> nodeOne = new List<Transform>();
-    [SerializeField] private List<Transform> nodeTwo = new List<Transform>();
+    private List<Transform> nodeOne = new List<Transform>();
+    private List<Transform> nodeTwo = new List<Transform>();
 
     private DungeonGenData data;
     private HallWayGen hallway;
@@ -87,13 +83,10 @@ public class Prim : MonoBehaviour
             }
 
             if (closestNode != null)
-            {
                 AddNodeToMST(closestNode);
-            }
         }
 
         hallway.GenHallways(nodeOne.ToArray(), nodeTwo.ToArray());
-
     }
 
     private void AddNodeToMST(Transform node)
