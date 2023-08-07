@@ -79,10 +79,10 @@ public class HallWayGen : MonoBehaviour
         Vector2 _pointDist = new Vector2(Vector3.Distance(a1, intersection), Vector3.Distance(b1, intersection));
 
         GameObject _corridorA = ObjectPoolManager.SpawnObject(_corridor, new Vector3((a1.x + intersection.x) / 2.0f, (a1.y + intersection.y) / 2.0f, (a1.z + intersection.z) / 2.0f), Quaternion.identity, ObjectPoolManager.PoolType.DungeonColliders); // midpoint between A B);
-        _corridorA.GetComponent<BoxCollider>().size = new Vector3(_pointDist.x, 1, 1);
+        _corridorA.GetComponent<BoxCollider>().size = new Vector3(Mathf.Round(_pointDist.x), 1, 1);
 
         GameObject _corridorB = ObjectPoolManager.SpawnObject(_corridor, new Vector3((b1.x + intersection.x) / 2.0f, (b1.y + intersection.y) / 2.0f, (b1.z + intersection.z) / 2.0f), Quaternion.identity, ObjectPoolManager.PoolType.DungeonColliders); // midpoint between A B);
-        _corridorB.GetComponent<BoxCollider>().size = new Vector3(1, 1, _pointDist.y);
+        _corridorB.GetComponent<BoxCollider>().size = new Vector3(1, 1, Mathf.Round(_pointDist.y));
 
         yield return null;
     }

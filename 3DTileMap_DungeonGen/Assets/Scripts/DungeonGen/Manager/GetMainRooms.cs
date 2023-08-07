@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GetMainRooms : MonoBehaviour
@@ -37,21 +38,35 @@ public class GetMainRooms : MonoBehaviour
         }
 
         // Replace the original _data.Rooms array with the sorted array
-        for (int i = 0; i < 5; i++)
-        {
-            _data.MainRooms.Add(sortedGameObjects[i]);
 
-            //Debug.Log("MainRoomsMade = " + _data.MainRooms.Count);
+        if(_data.MainRoomsAmount >= sortedGameObjects.Length)
+        {
+            for (int i = 0; i < sortedGameObjects.Length; i++)
+            {
+                _data.MainRooms.Add(sortedGameObjects[i]);
+            }
         }
+        else
+        {
+            for (int i = 0; i < _data.MainRoomsAmount; i++)
+            {
+                _data.MainRooms.Add(sortedGameObjects[i]);
+            }
+        }
+
 
         if(_data.dungeonType == algoritmType.rogue)
-        for (int i = 5; i < sortedGameObjects.Length; i++)
         {
-                ObjectPoolManager.ReturnObjectToPool(sortedGameObjects[i]);
+            GameObject[] removeObjects = sortedGameObjects.Except(_data.MainRooms).ToArray();//adds rooms that are not main rooms in a list
+
+            for (int i = 0; i < removeObjects.Length; i++)
+            {
+                ObjectPoolManager.ReturnObjectToPool(removeObjects[i]);//sends not main rooms to poolS
+            }
+
         }
-        //gameObject.GetComponent<BowyerWatson>().StartAlgorithm();
+
         _data.Rooms = _data.MainRooms;
         gameObject.GetComponent<Prim>().StartAlgorithm();
-        //--<STARTALGORITM>--
     }
 }

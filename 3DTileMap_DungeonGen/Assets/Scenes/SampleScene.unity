@@ -152,14 +152,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40c29397d9155045b50af0687168d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _data: {fileID: 519077134}
+  _mapWall: {fileID: 447629681}
+  _mapFloor: {fileID: 1190797088}
+  _tileWall: {fileID: 11400000, guid: 88db2f5756314d843ab845c275486738, type: 2}
+  _tileFloor: {fileID: 11400000, guid: 459374512dee3a64b9b8dd2fdb39758e, type: 2}
   _onRemoveRooms:
     m_PersistentCalls:
-      m_Calls: []
-  _mapWall: {fileID: 0}
-  _mapFloor: {fileID: 0}
-  _tileWall: {fileID: 0}
-  _tileFloor: {fileID: 0}
-  _data: {fileID: 519077134}
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: b241ceb9e1a220140bdd641edab6c063, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onGenerationDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 69fc74050d3fb544db230fab068938ec, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &309433742
 Transform:
   m_ObjectHideFlags: 0
@@ -329,7 +356,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _data: {fileID: 519077134}
-  radius: 100
   _roomPrefab: {fileID: 684894871758705577, guid: e1c9fe4398bc83347aa8dbd51dad8950, type: 3}
   _MinMaxSize: {x: 4, y: 10}
 --- !u!4 &519077133
@@ -360,15 +386,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rooms: []
   MainRooms: []
+  MinMaxRoomSize: {x: 0, y: 0}
+  MinimumMainRoomSize: 0
+  _roomDone: 0
+  isDone: 0
+  dungeonType: 0
   RoomsAmount: 80
   SpawnCircleRadius: 40
   CircleInset: {x: 1, y: 1}
   DungeonSize: {x: 40, y: 40}
-  MinMaxRoomSize: {x: 0, y: 0}
-  MinimumMainRoomSize: 0
-  _roomDone: 0
-  dungeonType: 0
-  isDone: 0
 --- !u!114 &519077135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,13 +407,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9022c334cba09eb428c08f28ec09fc28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilePlacer: {fileID: 309433741}
+  _data: {fileID: 519077134}
   map: {fileID: 447629681}
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 64
   _corridor: {fileID: 4818625163185335085, guid: 8f29f69e47d04b84c8c9cbefa02e22b4, type: 3}
-  tilePlacer: {fileID: 309433741}
-  _data: {fileID: 519077134}
 --- !u!114 &519077136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,8 +440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodes: []
-  nodeOne: []
-  nodeTwo: []
 --- !u!114 &519077138
 MonoBehaviour:
   m_ObjectHideFlags: 0

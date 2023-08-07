@@ -30,7 +30,29 @@ public class DungeonGenData : MonoBehaviour
     [Header("Dungeon size")]
     public Vector2 DungeonSize = new Vector2(120, 120);
 
+    [HideInInspector] public int MainRoomsAmount = 5;
 
+
+    [SerializeField] public GenLevels levelsData;
+    [HideInInspector] public int CurrentLevel;
+
+
+    public void SetNewData()
+    {
+        if(CurrentLevel > levelsData.Dungeonlevels.Length)
+        {
+            Debug.LogError("CurrentLevel is greater than Dungeonlevels array!");
+            return;
+        }    
+
+        dungeonType = levelsData.Dungeonlevels[CurrentLevel].dungeonType;
+        RoomsAmount = levelsData.Dungeonlevels[CurrentLevel].RoomsAmount;
+        SpawnCircleRadius = levelsData.Dungeonlevels[CurrentLevel].SpawnCircleRadius;
+        CircleInset = levelsData.Dungeonlevels[CurrentLevel].CircleInset;
+        MainRoomsAmount = levelsData.Dungeonlevels[CurrentLevel].MainRoomsAmount;
+
+        CurrentLevel++;
+    }
 
     public void OnRoomDone()
     {

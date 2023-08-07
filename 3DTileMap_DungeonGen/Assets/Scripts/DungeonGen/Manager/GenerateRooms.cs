@@ -14,9 +14,18 @@ public class GenerateRooms : MonoBehaviour
 
     public void StartDungeonGeneration()
     {
+        if (_data.CurrentLevel == _data.levelsData.Dungeonlevels.Length)
+        {
+            Debug.Log("Dungeon complete!");
+            return;
+        }
+
         if (!_isGenerating)
         {
             _isGenerating = true;
+
+            if (_data.levelsData != null)
+                _data.SetNewData();
 
             _data.MinMaxRoomSize = _MinMaxSize;
 
